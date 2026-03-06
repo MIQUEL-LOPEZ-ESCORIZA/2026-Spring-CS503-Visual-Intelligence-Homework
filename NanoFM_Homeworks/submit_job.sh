@@ -14,5 +14,7 @@ CONFIG_FILE=$1
 WANDB=$2
 NUM_GPUS=$3
 
+source ~/miniconda3/etc/profile.d/conda.sh
 conda activate nanofm
-export WANDB_API_KEY=$WANDB && OMP_NUM_THREADS=1 torchrun --nproc_per_node=$NUM_GPUS run_training.py --config $CONFIG_FILE
+export WANDB_API_KEY=$WANDB && OMP_NUM_THREADS=1 torchrun --nproc_per_node=2 run_training.py --config /home/milopez/me/2026-Spring-CS503-Visual-Intelligence-Homework/NanoFM_Homeworks/cfgs/nanoMaskGIT/mnist_d8w512.yaml
+

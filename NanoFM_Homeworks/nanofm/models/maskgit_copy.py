@@ -309,20 +309,15 @@ class MaskGIT(nn.Module):
             logits = self.forward_model(seq, mask)
             
             # TODO: Get the indices of masked tokens. Shape: [M,] (M = number of masked tokens)
-            masked_pos = mask[0].nonzero(as_tuple=False).squeeze(1) # Shape [M]
+            masked_indices = torch.where(mask[0])[0] # Shape [M]
 
             # TODO: Get the logits for the `masked_indices` positions. Shape: [M, vocab_size]
-            masked_logits = logits[0, masked_pos, :]  # Shape [M, vocab_size]
+            masked_logits = logits[0, masked_indices, :]  # Shape [M, vocab_size]
 
             
             # TODO: Compute confidence scores from `masked_logits`. Shape: [M,]
             # Hint: As a proxy for confidence, we use the maximum logit value for each masked position.
-            #confidence = torch.max(masked_logits, dim=1).values  # [M]
-
-            probs = F.softmax(masked_logits, dim=-1)
-            confidence = probs.max(dim=1).values
-
-
+            confidence = torch.max(masked_logits, dim=1).values  # [M]
 
             
             # TODO: Based on the number of tokens `k` to unmask at this step in the schedule,
@@ -330,7 +325,7 @@ class MaskGIT(nn.Module):
             # Hint: First, get the top-k indices of the confidence scores, and then use these indices
             # to select the corresponding masked positions.
             topk_idx = torch.topk(confidence, k=k).indices   # [k] indices into masked_indices
-            selected_positions = masked_pos[topk_idx]    # [k] positions in [0..L-1]
+            selected_positions = masked_indices[topk_idx]    # [k] positions in [0..L-1]
 
             
             # TODO: Get the logits for the `selected_positions`. Shape: [k, vocab_size]
