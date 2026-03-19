@@ -16,5 +16,5 @@ NUM_GPUS=$3
 
 source ~/miniconda3/etc/profile.d/conda.sh
 conda activate nanofm
-export WANDB_API_KEY=$WANDB && OMP_NUM_THREADS=1 torchrun --nproc_per_node=2 run_training.py --config /home/milopez/me/2026-Spring-CS503-Visual-Intelligence-Homework/NanoFM_Homeworks/cfgs/nanoMaskGIT/mnist_d8w512.yaml
+export WANDB_API_KEY=$WANDB && OMP_NUM_THREADS=1 torchrun --nproc_per_node=2 run_training.py --config /home/milopez/me/2026-Spring-CS503-Visual-Intelligence-Homework/NanoFM_Homeworks/cfgs/nanoMaskGIT/tinystories_d8w512.yaml
 
