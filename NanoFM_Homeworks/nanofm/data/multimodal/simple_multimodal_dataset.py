@@ -99,6 +99,22 @@ class SimpleMultimodalDataset(Dataset):
             special_tokens=[('[EOS]', tokenizer.eos_token_id), ('[SOS]', tokenizer.bos_token_id)],
         )
         return tokenizer
+
+    def _select_caption(self, captions, augmentation_idx, modality, file_path):
+        if len(captions) == 0:
+            raise IndexError(f"No captions found for modality {modality} in {file_path}")
+
+        if augmentation_idx < len(captions):
+            return captions[augmentation_idx]
+
+        if modality == 'caption':
+            return captions[np.random.randint(0, len(captions))]
+
+        raise IndexError(
+            f"Modality {modality} in {file_path} has {len(captions)} augmentations, "
+            f"but tried to read augmentation {augmentation_idx}. "
+            f"Reduce sample_from_k_augmentations or fix the dataset alignment."
+        )
         
     def __getitem__(self, idx):
         file_name = self.file_names[idx]
@@ -114,10 +130,10 @@ class SimpleMultimodalDataset(Dataset):
             if 'tok' in modality:
                 tokens = np.load(file_path)[augmentation_idx]
                 tokens = torch.from_numpy(tokens).long()
-            elif 'scene_desc' in modality:
+            elif modality in {'scene_desc', 'caption'}:
                 with open(file_path, 'r') as f:
                     captions = json.load(f)
-                caption = captions[augmentation_idx]
+                caption = self._select_caption(captions, augmentation_idx, modality, file_path)
                 tokenized = self.text_tokenizer(
                     caption, max_length=self.text_max_length, padding='max_length', 
                     truncation=True, return_tensors='pt'

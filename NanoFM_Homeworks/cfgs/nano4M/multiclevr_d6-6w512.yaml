@@ -6,11 +6,11 @@ output_dir: ./outputs/auto # Set to auto to use the run_name
 # Global variables used throughout the config
 global_vars:
   batch_size: 128 # per GPU (512 global batch size)
-  modalities: ["tok_rgb@256", "tok_depth@256", "tok_normal@256", "scene_desc"] # Input and output modalities
-  vocab_sizes: [64000, 64000, 64000, 50304] # Vocab sizes for each modality
-  max_seq_lens: [256, 256, 256, 256] # Max sequence lengths for each modality
-  input_alphas: [1.0, 1.0, 1.0, 1.0] # Input dirichlet alpha values for each modality
-  target_alphas: [1.0, 1.0, 1.0, 1.0] # Target dirichlet alpha values for each modality
+  modalities: ["tok_rgb@256", "tok_depth@256", "tok_normal@256", "scene_desc", "caption"] # Input and output modalities
+  vocab_sizes: [64000, 64000, 64000, 50304, 50304] # Vocab sizes for each modality
+  max_seq_lens: [256, 256, 256, 256, 256] # Max sequence lengths for each modality
+  input_alphas: [1.0, 1.0, 1.0, 1.0, 1.0] # Input dirichlet alpha values for each modality
+  target_alphas: [1.0, 1.0, 1.0, 1.0, 1.0] # Target dirichlet alpha values for each modality
   input_tokens_range: [1, 128] # Min and max encoder tokens during training
   target_tokens_range: [1, 128] # Min and max decoder tokens during training
 
@@ -32,7 +32,7 @@ save_ckpt_freq: 1000 # in millions of tokens
 # Logging
 log_wandb: True
 wandb_project: CS503_nano4M # wandb project name
-wandb_entity: <YOUR_WANDB_ENTITY_NAME> # Set to your wandb username
+wandb_entity: miquel-lopezescoriza-epfl # Set to your wandb username
 wandb_run_name: auto # Set to auto to use the run_name
 
 # Model config
@@ -58,7 +58,7 @@ model_config:
 # Train loader config
 train_loader_config:
   _target_: nanofm.data.multimodal.create_multimodal_masked_dataloader
-  root_dir: clevr # REPLACE WITH YOUR DATASET PATH
+  root_dir: /home/milopez/me/2026-Spring-CS503-Visual-Intelligence-Homework/NanoFM_Homeworks/datasets/clevr # REPLACE WITH YOUR DATASET PATH
   split: train
   modalities: ${global_vars.modalities}
   vocab_sizes: ${global_vars.vocab_sizes}
@@ -83,7 +83,7 @@ train_loader_config:
 # Eval loader config
 eval_loader_config:
   _target_: nanofm.data.multimodal.create_multimodal_masked_dataloader
-  root_dir: clevr # REPLACE WITH YOUR DATASET PATH
+  root_dir: /home/milopez/me/2026-Spring-CS503-Visual-Intelligence-Homework/NanoFM_Homeworks/datasets/clevr # REPLACE WITH YOUR DATASET PATH
   split: val
   modalities: ${global_vars.modalities}
   vocab_sizes: ${global_vars.vocab_sizes}

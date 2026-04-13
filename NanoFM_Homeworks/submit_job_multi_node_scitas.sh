@@ -24,6 +24,9 @@ export MASTER_ADDR=$(hostname)
 export WANDB_API_KEY=$WANDB_KEY
 export NCCL_DEBUG=INFO
 
+source ~/miniconda3/etc/profile.d/conda.sh
+conda activate nanofm
+
 # === Run main script ===
 srun bash -c "
   TORCHRUN_ARGS=\"--node-rank=\${SLURM_PROCID} \
@@ -37,6 +40,7 @@ srun bash -c "
   echo \${SLURMD_NODENAME}
 
   torchrun \${TORCHRUN_ARGS} run_training.py \
-    --config $CONFIG_FILE
+    --config /home/milopez/me/2026-Spring-CS503-Visual-Intelligence-Homework/NanoFM_Homeworks/cfgs/nano4M/multiclevr_d6-6w512.yaml   --no_auto_resume \
+    --output_dir ./outputs/nano4M/multiclevr_caption_d6-6w512
 "
 
