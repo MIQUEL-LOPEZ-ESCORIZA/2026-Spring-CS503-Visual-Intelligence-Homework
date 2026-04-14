@@ -45,6 +45,6 @@ elif [[ -f "${HOME}/anaconda3/etc/profile.d/conda.sh" ]]; then
 else
   eval "$(conda shell.bash hook 2>/dev/null)" || true
 fi
-conda activate nanofm
+conda activate nanovlm
 
 OMP_NUM_THREADS=1 torchrun --nproc_per_node="${NUM_GPUS}" train.py
