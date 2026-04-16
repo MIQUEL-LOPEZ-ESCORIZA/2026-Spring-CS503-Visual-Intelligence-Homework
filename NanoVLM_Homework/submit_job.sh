@@ -13,13 +13,12 @@
 # Batch-submit NanoVLM training on SCITAS (Izar).
 #
 # Usage:
-#   sbatch submit_job.sh <wandb_api_key> <huggingface_hub_token> [num_gpus]
+#   sbatch submit_job.sh <wandb_api_key> <huggingface_hub_token>
 
 cd "${SLURM_SUBMIT_DIR:-.}"
 
-WANDB_KEY="${1:?Usage: sbatch submit_job.sh <wandb_api_key> <huggingface_hub_token> [num_gpus]}"
-HF_TOKEN="${2:?Usage: sbatch submit_job.sh <wandb_api_key> <huggingface_hub_token> [num_gpus]}"
-NUM_GPUS="${3:-2}"
+WANDB_KEY="${1:?Usage: sbatch submit_job.sh <wandb_api_key> <huggingface_hub_token>}"
+HF_TOKEN="${2:?Usage: sbatch submit_job.sh <wandb_api_key> <huggingface_hub_token>}"
 
 ################# Hugging Face / cache setup #####################
 
@@ -64,4 +63,4 @@ echo "HF_HOME=$HF_HOME"
 echo "HF_DATASETS_CACHE=$HF_DATASETS_CACHE"
 echo "TMPDIR=$TMPDIR"
 
-OMP_NUM_THREADS=1 torchrun --nproc_per_node="${NUM_GPUS}" train.py
+OMP_NUM_THREADS=1 torchrun --nproc_per_node=2 train.py
