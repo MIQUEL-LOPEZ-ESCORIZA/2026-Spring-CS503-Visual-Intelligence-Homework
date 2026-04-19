@@ -20,5 +20,9 @@ __pycache__
 *.safetensors
 *.err
 *.out
+*latest-run
+*.log
+*.wandb
+*.json
 
 tmp/
