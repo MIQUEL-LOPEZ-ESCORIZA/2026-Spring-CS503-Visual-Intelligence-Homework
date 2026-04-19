@@ -1,5 +1,7 @@
 *.egg-info
 4M_Tutorial/retrieval_data
+Transformer_Homework/data/
+clevr/
 nano4M/outputs
 nano4M/wandb
 nano4M/data/
@@ -12,11 +14,8 @@ nano4M_sol/data/
 .DS_Store
 __pycache__
 .ipynb_checkpoints
-*.gz
-*ubyte
-*datasets*
-*wandb
-
+*/wandb/*
+*/checkpoints/*
 *.pth
 *.safetensors
 *.err

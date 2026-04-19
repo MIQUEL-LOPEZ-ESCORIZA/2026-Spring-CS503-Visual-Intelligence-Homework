@@ -325,6 +325,7 @@ class TransformerDecoderTrunk(nn.Module):
             sa_mask: Optional[torch.Tensor] = None, # Self-attention mask
             xa_mask: Optional[torch.Tensor] = None, # Cross-attention mask
         ) -> torch.Tensor:
+
         
         # TODO
 
